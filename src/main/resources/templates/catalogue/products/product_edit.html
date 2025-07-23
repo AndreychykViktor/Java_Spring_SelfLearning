@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редагувати товар</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .back-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #FF9800;
+            transform: translateX(-5px);
+        }
+
+        .back-link::before {
+            content: '←';
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e6f3;
+            border-radius: 12px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: #f8f9ff;
+            font-family: inherit;
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #FF9800;
+            box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.1);
+            background: white;
+        }
+
+        .submit-button {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+            display: block;
+            margin: 30px auto 0;
+            min-width: 200px;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.4);
+        }
+
+        .form-note {
+            background: #fff3e0;
+            border-left: 4px solid #FF9800;
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 30px;
+            color: #E65100;
+            font-size: 0.95em;
+        }
+
+        .required {
+            color: #f44336;
+            margin-left: 3px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>✏️ Редагувати товар</h1>
+        <p>Оновіть інформацію про товар</p>
+    </div>
+
+    <div class="content">
+        <a th:href="@{/catalogue/products/{id}(id=${product.id})}" class="back-link">
+            До деталей товару
+        </a>
+
+        <div class="form-note">
+            ✏️ <strong>Редагування:</strong> Змініть необхідні поля та збережіть зміни
+        </div>
+
+        <form method="post" th:action="@{/catalogue/products/{id}/edit(id=${product.id})}">
+        <div class="form-group">
+                <label class="form-label">
+                    📦 Назва товару <span class="required">*</span>
+                </label>
+                <input type="text"
+                       name="name"
+                       class="form-input"
+                       th:value="${product.name}"
+                       placeholder="Введіть назву товару"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    📝 Опис товару <span class="required">*</span>
+                </label>
+                <textarea name="details"
+                          class="form-textarea"
+                          placeholder="Детальний опис товару"
+                          required
+                          th:text="${product.details}"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    💰 Ціна (грн) <span class="required">*</span>
+                </label>
+                <input type="number"
+                       name="price"
+                       class="form-input"
+                       th:value="${product.price}"
+                       step="0.01"
+                       min="0"
+                       required>
+            </div>
+
+            <button type="submit" class="submit-button">
+                💾 Зберегти зміни
+            </button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
