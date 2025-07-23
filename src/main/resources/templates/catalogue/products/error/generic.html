@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Помилка сервера</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #F44336, #D32F2F);
+            color: white;
+            padding: 40px 30px;
+        }
+
+        .error-emoji {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .error-title {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .error-code {
+            font-size: 1.2em;
+            opacity: 0.8;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .error-message {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .btn-home {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            display: inline-block;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="error-emoji">⚠️</div>
+        <h1 class="error-title">Помилка сервера</h1>
+        <p class="error-code">Код помилки: <span th:text="${errorCode ?: '500'}"></span></p>
+    </div>
+
+    <div class="content">
+        <p class="error-message" th:text="${errorMessage ?: 'На жаль, виникла непередбачена помилка сервера.'}">
+            На жаль, виникла непередбачена помилка сервера.
+        </p>
+
+        <a th:href="@{/catalogue/products/list}" class="btn-home">
+            🏠 Повернутися до списку товарів
+        </a>
+    </div>
+</div>
+</body>
+</html>

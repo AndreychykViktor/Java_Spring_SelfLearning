@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${product.name}">Деталі товару</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .product-title {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-emoji {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .product-details {
+            display: grid;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .detail-card {
+            background: #f8f9ff;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .detail-label {
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #667eea;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .detail-value {
+            font-size: 1.1em;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .detail-id {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .detail-price {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            font-weight: 600;
+            font-size: 1.2em;
+        }
+
+        .detail-description {
+            background: #fff;
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+            padding: 20px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .actions {
+            text-align: center;
+            padding: 20px 0;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 25px;
+            display: inline-flex;
+            align-items: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .btn-back {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            text-decoration: none;
+            color: white;
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+        }
+
+        .btn-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 152, 0, 0.4);
+            text-decoration: none;
+            color: white;
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #F44336, #D32F2F);
+            color: white;
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+        }
+
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+        }
+
+        .btn-icon {
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                min-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="product-emoji">🛍️</div>
+        <h1 class="product-title" th:text="${product.name}">Назва товару</h1>
+    </div>
+
+    <div class="content">
+        <div class="product-details">
+            <div class="detail-card">
+                <div class="detail-label">🔢 Ідентифікатор</div>
+                <div class="detail-value">
+                    <span class="detail-id" th:text="${product.id}"></span>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-label">💰 Ціна</div>
+                <div class="detail-value">
+                    <span class="detail-price" th:text="${product.price + ' грн'}"></span>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-label">📋 Опис товару</div>
+                <div class="detail-value">
+                    <div class="detail-description" th:text="${product.details}"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <div class="action-buttons">
+                <a th:href="@{'/catalogue/products/' + ${product.id} + '/edit'}" class="btn btn-edit">
+                    <span class="btn-icon">✏️</span>
+                    Редагувати товар
+                </a>
+
+                <form method="post" th:action="@{'/catalogue/products/' + ${product.id} + '/delete'}"
+                      style="display: inline;"
+                      onsubmit="return confirm('Ви впевнені, що хочете видалити цей товар?')">
+                    <button type="submit" class="btn btn-delete">
+                        <span class="btn-icon">🗑️</span>
+                        Видалити товар
+                    </button>
+                </form>
+            </div>
+
+            <a th:href="@{/catalogue/products/list}" class="btn btn-back">
+                <span class="btn-icon">←</span>
+                Повернутися до списку товарів
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

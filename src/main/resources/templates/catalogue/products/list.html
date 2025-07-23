@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список товарів</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #f44336;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn-create {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 25px;
+            display: inline-block;
+            margin-bottom: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-create:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .products-table thead {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .products-table th {
+            padding: 15px 20px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9em;
+        }
+
+        .products-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .products-table tr:hover {
+            background-color: #f8f9ff;
+            transform: scale(1.01);
+            transition: all 0.3s ease;
+        }
+
+        .product-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .product-link:hover {
+            color: #4CAF50;
+            text-decoration: underline;
+        }
+
+        .product-id {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: 600;
+            display: inline-block;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 10px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🛍️ Список товарів</h1>
+    </div>
+
+    <div class="content">
+        <!-- Повідомлення про помилки -->
+        <div th:if="${param.error}" class="error-message">
+            <div th:if="${param.error[0] == 'notfound'}">
+                ❌ <strong>Помилка:</strong> Товар не знайдено або був видалений
+            </div>
+            <div th:unless="${param.error[0] == 'notfound'}">
+                ❌ <strong>Помилка:</strong> Виникла невідома помилка
+            </div>
+        </div>
+
+        <a th:href="@{/catalogue/products/create}" class="btn-create">
+            ➕ Створити новий товар
+        </a>
+
+        <div th:if="${products != null and not #lists.isEmpty(products)}">
+            <table class="products-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Назва товару</th>
+                    <th>Ціна</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product : ${products}">
+                    <td>
+                        <span class="product-id" th:text="${product.id}"></span>
+                    </td>
+                    <td>
+                        <a th:href="@{{id}(id=${product.id})}"
+                           th:text="${product.name}"
+                           class="product-link"></a>
+                    </td>
+                    <td>
+                        <strong th:text="${product.price + ' грн'}"></strong>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:if="${products == null or #lists.isEmpty(products)}" class="empty-state">
+            <h3>📦 Товари відсутні</h3>
+            <p>Поки що немає жодного товару. Створіть перший!</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
